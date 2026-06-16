@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revenu net imposable : abattement de 10 % ou frais réels ? — Guide complet</title>
+<meta name="description" content="Comprendre le revenu net imposable : différence avec le net à payer, abattement forfaitaire de 10 %, option frais réels, et comment le trouver sur votre fiche de paie ou votre avis d'imposition.">
+<meta name="robots" content="index,follow">
+<style>
+:root{
+  --ink:#16202e;--ink-soft:#5a6675;--paper:#fbfaf7;--card:#fff;
+  --line:#e7e3da;--line-strong:#d3cdc0;
+  --accent:#2f5d8a;--accent-deep:#1d3c5c;
+  --gold:#b8862f;--gold-soft:#f5ecd8;
+  --red:#b4322b;--green:#2f7a4f;
+  --radius:10px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--paper);color:var(--ink);line-height:1.7;font-size:16px;-webkit-font-smoothing:antialiased}
+
+.topbar{background:var(--card);border-bottom:1px solid var(--line-strong);position:sticky;top:0;z-index:50}
+.topbar-in{max-width:720px;margin:0 auto;padding:0 20px;display:flex;align-items:center;justify-content:space-between;height:54px}
+.topbar-brand{font-size:15px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+.back-link{font-size:13px;color:var(--accent);text-decoration:none;font-weight:600;display:flex;align-items:center;gap:4px}
+.back-link:hover{text-decoration:underline}
+
+.article-wrap{max-width:720px;margin:0 auto;padding:0 20px}
+.article-header{padding:40px 0 24px}
+.eyebrow{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:12px}
+h1{font-size:30px;line-height:1.2;font-weight:800;letter-spacing:-.02em}
+.article-header .lede{margin-top:14px;color:var(--ink-soft);font-size:17px;max-width:58ch;line-height:1.6}
+
+.content h2{font-size:22px;font-weight:800;margin:36px 0 14px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.content h3{font-size:17px;font-weight:700;margin:26px 0 10px}
+.content p{margin-bottom:14px;color:#2c3645}
+.content p.small{font-size:14px;color:var(--ink-soft)}
+.content ul,.content ol{margin:0 0 16px 0;padding-left:0;list-style:none}
+.content ul li,.content ol li{position:relative;padding-left:22px;margin-bottom:8px;color:#2c3645}
+.content ul li::before{content:"";position:absolute;left:4px;top:11px;width:6px;height:6px;background:var(--gold);border-radius:50%}
+.content ol{counter-reset:ol-counter}
+.content ol li{counter-increment:ol-counter}
+.content ol li::before{content:counter(ol-counter);position:absolute;left:0;top:0;font-weight:800;color:var(--accent);font-size:14px}
+.content strong{font-weight:700;color:var(--ink)}
+.content a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+
+.callout{background:var(--card);border:1px solid var(--line-strong);border-left:4px solid var(--accent);border-radius:var(--radius);padding:18px 20px;margin:20px 0}
+.callout h3{margin-top:0}
+.callout-gold{border-left-color:var(--gold)}
+.callout-green{border-left-color:var(--green)}
+
+.example{background:#f4f1ea;border-radius:var(--radius);padding:20px;margin:20px 0;font-size:15px}
+.example h4{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--gold);font-weight:700;margin-bottom:10px}
+.example .line{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px dashed var(--line)}
+.example .line:last-child{border-bottom:none}
+.example .line .label{color:var(--ink-soft)}
+.example .line .val{font-weight:700;font-variant-numeric:tabular-nums}
+.example .line.result{margin-top:6px;padding-top:10px;border-top:2px solid var(--line-strong);border-bottom:none}
+.example .line.result .val{color:var(--accent-deep);font-size:17px}
+
+table.compare{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px;border:1px solid var(--line-strong);border-radius:8px;overflow:hidden}
+table.compare th{background:#f4f1ea;text-align:left;font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--ink);font-weight:700;padding:10px 14px}
+table.compare td{padding:10px 14px;border-top:1px solid var(--line)}
+table.compare tr:nth-child(even) td{background:#fcfbf8}
+
+.cta-sim{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:#fff;font-weight:700;font-size:14px;padding:12px 22px;border-radius:8px;text-decoration:none;margin:20px 0;transition:background .12s}
+.cta-sim:hover{background:var(--accent-deep)}
+
+footer{border-top:1px solid var(--line-strong);background:var(--card);margin-top:40px}
+.footer-in{max-width:720px;margin:0 auto;padding:26px 20px 34px;font-size:12.5px;color:var(--ink-soft)}
+.footer-in a{color:var(--accent);text-decoration:none}
+.footer-in a:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+
+<nav class="topbar">
+  <div class="topbar-in">
+    <a href="../" class="topbar-brand">Impôts 2026</a>
+    <a href="../" class="back-link">← Simulateur</a>
+  </div>
+</nav>
+
+<div class="article-wrap">
+  <header class="article-header">
+    <div class="eyebrow">Guide fiscal</div>
+    <h1>Le revenu net imposable</h1>
+    <p class="lede">Ce que vous gagnez n'est pas ce que l'État impose. Entre votre salaire net et la base sur laquelle l'impôt est calculé, il y a une étape essentielle : l'abattement pour frais professionnels.</p>
+  </header>
+
+  <div class="content">
+
+    <h2>Salaire net, net imposable, revenu net imposable : trois montants différents</h2>
+
+    <p>Votre <strong>salaire net</strong> (ou « net à payer ») est ce qui arrive sur votre compte en banque chaque mois. Votre <strong>salaire net imposable</strong>, lui, est légèrement plus élevé : il inclut la CSG non déductible et la CRDS, qui ne sont pas prélevées sur votre paie mais restent soumises à l'impôt. C'est ce montant que votre employeur déclare à l'administration fiscale et qui apparaît sur votre déclaration pré-remplie.</p>
+
+    <p>Le <strong>revenu net imposable</strong> est le montant final sur lequel le barème de l'impôt s'applique. Pour passer du salaire net imposable au revenu net imposable, l'administration déduit automatiquement un <strong>abattement de 10 % pour frais professionnels</strong>, sauf si vous avez opté pour la déduction de vos frais réels.</p>
+
+    <div class="callout">
+      <h3>Ce qu'il faut retenir</h3>
+      <p>Le « net imposable » de votre fiche de paie n'inclut <strong>pas</strong> l'abattement de 10 %. C'est l'administration qui l'applique lors du calcul de l'impôt. Quand vous utilisez notre simulateur, renseignez donc votre revenu <strong>après</strong> abattement (visible sur votre avis d'imposition) ou appliquez vous-même la déduction de 10 % à votre cumul annuel de salaires nets imposables.</p>
+    </div>
+
+
+    <h2>L'abattement forfaitaire de 10 %</h2>
+
+    <p>Par défaut, l'administration fiscale déduit <strong>10 % de vos salaires</strong> pour tenir compte des frais que vous engagez pour votre activité professionnelle (transport domicile-travail, repas, vêtements…). Cet abattement est appliqué automatiquement, vous n'avez rien à faire.</p>
+
+    <p>Il est encadré par un plancher et un plafond :</p>
+    <ul>
+      <li><strong>Minimum</strong> : 504 € par personne (vous ne pouvez pas déduire moins, même si 10 % de vos salaires donne un montant inférieur).</li>
+      <li><strong>Maximum</strong> : 14 426 € par personne (au-delà, l'abattement est plafonné, même si vos salaires sont très élevés).</li>
+    </ul>
+    <p class="small">Montants applicables aux revenus 2025 (barème 2026). Ces plafonds sont indexés chaque année.</p>
+
+    <div class="example">
+      <h4>Exemple — salarié célibataire</h4>
+      <div class="line"><span class="label">Salaires nets imposables (cumul annuel fiche de paie)</span><span class="val">32 000 €</span></div>
+      <div class="line"><span class="label">Abattement 10 %</span><span class="val">− 3 200 €</span></div>
+      <div class="line result"><span class="label">Revenu net imposable</span><span class="val">28 800 €</span></div>
+    </div>
+
+    <p>C'est ce montant de <strong>28 800 €</strong> qu'il faut saisir dans le simulateur pour obtenir le bon taux d'imposition.</p>
+
+
+    <h2>L'option frais réels : quand est-ce intéressant ?</h2>
+
+    <p>Si vos dépenses professionnelles réelles dépassent 10 % de vos salaires, vous pouvez opter pour la <strong>déduction des frais réels</strong>. Vous déclarez alors le montant exact de vos frais à la place de l'abattement forfaitaire.</p>
+
+    <h3>Frais déductibles les plus courants</h3>
+    <ul>
+      <li><strong>Frais de trajet domicile-travail</strong> — calculés selon le barème kilométrique officiel (distance, puissance fiscale du véhicule).</li>
+      <li><strong>Frais de repas</strong> — la part excédant le coût d'un repas pris à domicile (fixé à 5,35 € en 2025).</li>
+      <li><strong>Double résidence</strong> — loyer et frais liés à un logement professionnel si vous êtes contraint de vivre loin de votre domicile.</li>
+      <li><strong>Formation, documentation, matériel professionnel</strong> — si non remboursés par l'employeur.</li>
+    </ul>
+
+    <div class="callout callout-gold">
+      <h3>Dois-je opter pour les frais réels ?</h3>
+      <p>Comparez les deux montants. Si vos frais réels totaux dépassent 10 % de vos salaires (et le minimum de 504 €), l'option frais réels diminue votre revenu imposable et donc votre impôt. Sinon, gardez l'abattement forfaitaire — c'est plus simple et plus avantageux.</p>
+      <p class="small">Attention : les frais réels doivent pouvoir être justifiés (factures, tickets, relevé kilométrique) en cas de contrôle.</p>
+    </div>
+
+    <div class="example">
+      <h4>Comparaison — même salarié à 32 000 €</h4>
+      <div class="line"><span class="label">Salaires nets imposables</span><span class="val">32 000 €</span></div>
+      <div class="line"><span class="label">Abattement 10 %</span><span class="val">− 3 200 €</span></div>
+      <div class="line"><span class="label">→ Revenu net imposable (forfaitaire)</span><span class="val">28 800 €</span></div>
+      <div class="line" style="margin-top:10px"><span class="label">Frais réels (60 km/j × 220 jours)</span><span class="val">− 5 800 €</span></div>
+      <div class="line result"><span class="label">→ Revenu net imposable (frais réels)</span><span class="val">26 200 €</span></div>
+    </div>
+    <p>Dans cet exemple, les frais réels sont plus avantageux : 2 600 € de base imposable en moins, soit une économie d'impôt d'environ 286 € pour un contribuable dans la tranche à 11 %.</p>
+
+
+    <h2>Où trouver votre revenu net imposable ?</h2>
+
+    <h3>Sur votre avis d'imposition</h3>
+    <p>La ligne « <strong>Revenu imposable</strong> » de votre avis d'imposition est le montant déjà calculé par l'administration, après abattement ou frais réels. C'est la valeur la plus fiable à utiliser dans le simulateur.</p>
+
+    <h3>Sur votre fiche de paie</h3>
+    <p>La ligne « <strong>Net imposable</strong> » ou « <strong>Cumul net imposable</strong> » en bas de votre bulletin de paie donne le total <strong>avant abattement</strong>. Pour estimer votre revenu imposable, multipliez ce cumul annuel par 0,9 (soit une déduction de 10 %).</p>
+
+    <h3>Sur votre espace impots.gouv.fr</h3>
+    <p>Dans la rubrique « <strong>Dernière situation connue</strong> » ou dans votre déclaration pré-remplie, la case 1AJ (traitements et salaires) indique vos salaires déclarés avant abattement. La ligne « Revenu net imposable » en bas de la déclaration montre le montant après déduction.</p>
+
+    <div class="callout callout-green">
+      <h3>Astuce rapide</h3>
+      <p>Vous n'avez que votre fiche de paie sous les yeux ? Prenez le <strong>cumul net imposable de décembre</strong> (12 mois), multipliez par <strong>0,9</strong>, et saisissez le résultat dans le simulateur. Vous aurez une estimation fiable à quelques euros près.</p>
+    </div>
+
+    <a href="../" class="cta-sim">Estimer mon impôt →</a>
+
+  </div>
+</div>
+
+<footer>
+  <div class="footer-in">
+    Sources : <a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F1989" target="_blank" rel="noopener">Service Public — Déduction forfaitaire de 10 %</a> · <a href="https://www.impots.gouv.fr/particulier/les-frais-reels" target="_blank" rel="noopener">impots.gouv.fr — Frais réels</a> · Art. 83 du CGI.
+    <br>Outil d'information à but pédagogique. Dernière mise à jour : juin 2026.
+  </div>
+</footer>
+
+</body>
+</html>

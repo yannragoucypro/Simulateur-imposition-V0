@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulateur de taux d'imposition 2026 — Calculez votre impôt sur le revenu</title>
+<meta name="description" content="Calculez votre taux d'imposition et le montant de votre impôt sur le revenu avec le barème officiel 2026 (revenus 2025). Quotient familial, réfaction DOM. Gratuit et sans inscription.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://example.com/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Simulateur de taux d'imposition 2026">
+<meta property="og:description" content="Estimez votre taux d'imposition et votre impôt sur le revenu. Barème officiel 2026 applicable aux revenus 2025.">
+<style>
+:root{
+  --ink:#16202e;--ink-soft:#5a6675;--paper:#fbfaf7;--card:#fff;
+  --line:#e7e3da;--line-strong:#d3cdc0;
+  --accent:#2f5d8a;--accent-deep:#1d3c5c;
+  --gold:#b8862f;--gold-soft:#f5ecd8;
+  --red:#b4322b;--green:#2f7a4f;--green-soft:#eaf3ee;
+  --radius:10px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--paper);color:var(--ink);line-height:1.6;font-size:16px;-webkit-font-smoothing:antialiased}
+
+/* ── Nav ─────────────────────────────────── */
+.topbar{background:var(--card);border-bottom:1px solid var(--line-strong);position:sticky;top:0;z-index:50}
+.topbar-in{max-width:880px;margin:0 auto;padding:0 20px;display:flex;align-items:center;justify-content:space-between;height:54px}
+.topbar-brand{font-size:15px;font-weight:700;color:var(--accent-deep);text-decoration:none}
+.menu-wrap{position:relative}
+.menu-btn{background:none;border:1px solid var(--line-strong);border-radius:8px;padding:7px 14px;font-family:inherit;font-size:13px;font-weight:600;color:var(--ink);cursor:pointer;display:flex;align-items:center;gap:6px;transition:all .12s}
+.menu-btn:hover{border-color:var(--accent);color:var(--accent)}
+.menu-btn svg{width:16px;height:16px}
+.menu-drop{display:none;position:absolute;right:0;top:calc(100% + 6px);background:var(--card);border:1px solid var(--line-strong);border-radius:var(--radius);box-shadow:0 8px 24px rgba(22,32,46,.1);min-width:280px;padding:6px 0;z-index:60}
+.menu-drop.open{display:block}
+.menu-drop a{display:block;padding:10px 18px;font-size:13.5px;color:var(--ink);text-decoration:none;transition:background .08s}
+.menu-drop a:hover{background:var(--paper)}
+.menu-drop a small{display:block;font-size:11.5px;color:var(--ink-soft);margin-top:2px}
+.menu-sep{height:1px;background:var(--line);margin:4px 0}
+
+/* ── Header ──────────────────────────────── */
+.hero{max-width:880px;margin:0 auto;padding:34px 20px 8px}
+.eyebrow{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:12px}
+h1{font-size:28px;line-height:1.2;font-weight:800;letter-spacing:-.02em}
+.hero .lede{margin-top:10px;color:var(--ink-soft);font-size:15px;max-width:62ch}
+
+/* ── Simulateur ──────────────────────────── */
+.wrap{max-width:880px;margin:0 auto;padding:0 20px}
+.sim{background:var(--card);border:1px solid var(--line-strong);border-radius:var(--radius);margin:24px 0;overflow:hidden;box-shadow:0 1px 2px rgba(22,32,46,.04)}
+.sim-head{background:#f4f1ea;padding:14px 22px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px}
+.sim-head h2{font-size:14px;font-weight:700;color:var(--accent-deep);margin:0}
+.sim-head .badge{display:inline-flex;font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px;background:#eaf0f6;color:var(--accent-deep)}
+.sim-body{padding:24px 22px}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:560px){.fields{grid-template-columns:1fr}}
+.field{display:flex;flex-direction:column;gap:6px}
+.field.full{grid-column:1/-1}
+label{font-size:12.5px;font-weight:600;color:var(--ink);letter-spacing:.01em}
+label .hint{font-weight:400;color:var(--ink-soft);font-size:11.5px}
+
+/* Tooltip ℹ️ */
+.info-tip{position:relative;display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:var(--accent);color:#fff;font-size:10px;font-weight:700;cursor:help;margin-left:5px;vertical-align:middle;font-style:normal;line-height:1;flex-shrink:0}
+.info-tip .tip-content{display:none;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);width:280px;background:var(--ink);color:#fff;font-size:12.5px;font-weight:400;line-height:1.5;padding:12px 14px;border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,.2);z-index:10;pointer-events:none}
+.info-tip .tip-content::after{content:"";position:absolute;top:100%;left:50%;transform:translateX(-50%);border:6px solid transparent;border-top-color:var(--ink)}
+.info-tip:hover .tip-content,.info-tip:focus .tip-content{display:block;pointer-events:auto}
+@media(max-width:560px){.info-tip .tip-content{left:auto;right:-10px;transform:none}.info-tip .tip-content::after{left:auto;right:16px}}
+.info-tip .tip-content a{color:#93c5fd;text-decoration:underline}
+
+.input-money{position:relative}
+.input-money input{padding-right:30px}
+.input-money::after{content:"€";position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--ink-soft);font-size:14px;pointer-events:none}
+input,select{font-family:inherit;font-size:15px;padding:10px 12px;border:1px solid var(--line-strong);border-radius:8px;background:var(--paper);color:var(--ink);width:100%;transition:border-color .12s}
+input:focus,select:focus{outline:none;border-color:var(--accent);background:#fff;box-shadow:0 0 0 3px rgba(47,93,138,.1)}
+
+/* ── Résultats ───────────────────────────── */
+.results{margin-top:24px;border-top:1px solid var(--line);padding-top:22px}
+.res-head{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:20px}
+@media(max-width:640px){.res-head{grid-template-columns:1fr}}
+.res-box{border:1px solid var(--line-strong);border-radius:var(--radius);padding:16px 18px}
+.res-box .rl{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-soft);font-weight:600;margin-bottom:6px}
+.res-box .rv{font-size:28px;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1}
+.res-box .rs{font-size:12px;color:var(--ink-soft);margin-top:6px}
+.res-box.hero-tmi{background:linear-gradient(135deg,#fff,#f7f9fc);border-color:#cdd9e6}
+.res-box.hero-tmi .rv{color:var(--accent-deep)}
+.res-box.hero-avg .rv{color:var(--gold)}
+.res-box.hero-tax .rv{color:var(--ink)}
+
+.breakdown{font-size:13.5px;margin-top:4px}
+.breakdown h3{font-size:12px;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-soft);font-weight:700;margin-bottom:10px}
+table.detail{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+table.detail th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--ink-soft);font-weight:600;padding:6px 8px;border-bottom:1px solid var(--line)}
+table.detail th:last-child,table.detail td:last-child{text-align:right}
+table.detail td{padding:7px 8px;border-bottom:1px solid var(--line);font-size:13.5px}
+table.detail tr.on td{background:#f7f9fc;color:var(--accent-deep);font-weight:600}
+table.detail tr.on td:first-child{box-shadow:inset 3px 0 0 var(--accent)}
+table.detail tfoot td{font-weight:700;border-bottom:none;border-top:2px solid var(--line-strong);padding-top:10px}
+
+.ledger{margin-top:18px;background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:14px 16px}
+.ledger-row{display:flex;justify-content:space-between;align-items:baseline;padding:5px 0;font-size:14px;font-variant-numeric:tabular-nums}
+.ledger-row+.ledger-row{border-top:1px dashed var(--line)}
+.ledger-row .lk{color:var(--ink-soft)}
+.ledger-row.refac .lv{color:var(--green);font-weight:600}
+.ledger-row.total{margin-top:4px;padding-top:10px;border-top:2px solid var(--line-strong)}
+.ledger-row.total .lk{font-weight:700;color:var(--ink)}
+.ledger-row.total .lv{font-weight:800;font-size:18px}
+
+.disclaim{margin-top:16px;font-size:12px;color:var(--ink-soft);line-height:1.55;border-left:3px solid var(--gold);padding:4px 0 4px 14px}
+
+/* ── Contenu éditorial ───────────────────── */
+article{max-width:880px;margin:0 auto;padding:0 20px}
+article section{margin:36px 0}
+article h2{font-size:22px;font-weight:800;letter-spacing:-.01em;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+article h3{font-size:16px;font-weight:700;margin:22px 0 8px}
+article p{margin-bottom:12px;color:#2c3645}
+article p.small{font-size:13.5px;color:var(--ink-soft)}
+article ul{margin:0 0 14px 0;padding-left:0;list-style:none}
+article ul li{position:relative;padding-left:22px;margin-bottom:7px;color:#2c3645}
+article ul li::before{content:"";position:absolute;left:4px;top:11px;width:6px;height:6px;background:var(--gold);border-radius:50%}
+article strong{font-weight:700;color:var(--ink)}
+table.bareme{width:100%;border-collapse:collapse;margin:14px 0;font-variant-numeric:tabular-nums;border:1px solid var(--line-strong);border-radius:8px;overflow:hidden}
+table.bareme caption{text-align:left;font-size:12.5px;color:var(--ink-soft);margin-bottom:8px;font-weight:600}
+table.bareme th{background:#f4f1ea;text-align:left;font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--ink);font-weight:700;padding:10px 14px}
+table.bareme th:last-child,table.bareme td:last-child{text-align:right}
+table.bareme td{padding:10px 14px;border-top:1px solid var(--line);font-size:14px}
+table.bareme tr:nth-child(even) td{background:#fcfbf8}
+.callout{background:var(--card);border:1px solid var(--line-strong);border-left:4px solid var(--accent);border-radius:8px;padding:16px 18px;margin:16px 0}
+.callout h3{margin-top:0}
+
+/* ── Footer ──────────────────────────────── */
+footer{border-top:1px solid var(--line-strong);background:var(--card);margin-top:40px}
+.footer-in{max-width:880px;margin:0 auto;padding:26px 20px 34px;font-size:12.5px;color:var(--ink-soft)}
+.footer-in h4{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink);margin-bottom:10px}
+.footer-in ul{list-style:none;line-height:1.9}
+.footer-in a{color:var(--accent);text-decoration:none}
+.footer-in a:hover{text-decoration:underline}
+.footer-in .legal{margin-top:18px;padding-top:16px;border-top:1px solid var(--line);line-height:1.6}
+</style>
+</head>
+<body>
+
+<!-- ════ NAV ════ -->
+<nav class="topbar">
+  <div class="topbar-in">
+    <a href="/" class="topbar-brand">Impôts 2026</a>
+    <div class="menu-wrap">
+      <button class="menu-btn" id="menu-btn" aria-expanded="false" aria-haspopup="true">
+        Comprendre
+        <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"/></svg>
+      </button>
+      <div class="menu-drop" id="menu-drop">
+        <a href="articles/revenu-net-imposable.html">
+          Le revenu net imposable
+          <small>Abattement 10 %, frais réels, fiche de paie</small>
+        </a>
+        <a href="articles/bareme-impot-2026.html">
+          Barème de l'impôt 2026
+          <small>Tranches, taux, quotient familial</small>
+        </a>
+        <a href="articles/refaction-dom.html">
+          Réfaction d'impôt outre-mer
+          <small>Guadeloupe, Martinique, Réunion, Guyane, Mayotte</small>
+        </a>
+        <div class="menu-sep"></div>
+        <a href="articles/prelevement-a-la-source.html">
+          Choisir son taux de prélèvement
+          <small>Comment ajuster le PAS sur impots.gouv.fr</small>
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ════ HERO ════ -->
+<div class="hero">
+  <div class="eyebrow">Barème officiel · Revenus 2025</div>
+  <h1>Simulateur de taux d'imposition</h1>
+  <p class="lede">Estimez votre taux d'imposition et le montant de votre impôt sur le revenu pour choisir le bon taux de prélèvement à la source.</p>
+</div>
+
+<!-- ════ SIMULATEUR ════ -->
+<div class="wrap">
+  <section class="sim" aria-label="Simulateur">
+    <div class="sim-head">
+      <h2>Simulation — Barème 2026</h2>
+      <span class="badge">Loi de finances 2026 · revenus 2025</span>
+    </div>
+    <div class="sim-body">
+      <div class="fields">
+
+        <div class="field full">
+          <label for="revenu">
+            Revenu net imposable annuel
+            <span class="info-tip" tabindex="0" role="button" aria-label="En savoir plus">
+              i
+              <span class="tip-content">
+                C'est le montant <strong>après abattement de 10 %</strong> (ou déduction des frais réels). Il figure sur votre avis d'imposition. Si vous n'avez que votre salaire net imposable (fiche de paie), appliquez −10 %.
+                <br><br>
+                <a href="articles/revenu-net-imposable.html">En savoir plus →</a>
+              </span>
+            </span>
+          </label>
+          <div class="input-money">
+            <input type="number" id="revenu" inputmode="numeric" min="0" step="100" placeholder="Ex : 28 000" value="30000">
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="parts">Nombre de parts <span class="hint">— quotient familial</span></label>
+          <input type="number" id="parts" inputmode="decimal" min="0.5" step="0.5" placeholder="1" value="1">
+        </div>
+
+        <div class="field">
+          <label for="zone">Résidence fiscale</label>
+          <select id="zone">
+            <option value="metropole">France métropolitaine</option>
+            <option value="reunion">Guadeloupe · Martinique · Réunion</option>
+            <option value="guyane">Guyane · Mayotte</option>
+          </select>
+        </div>
+
+      </div>
+
+      <div class="results" id="results" aria-live="polite"></div>
+    </div>
+  </section>
+</div>
+
+<!-- ════ CONTENU ÉDITORIAL (SEO) ════ -->
+<article>
+
+  <section id="comprendre">
+    <h2>Comment fonctionne le simulateur ?</h2>
+    <p>Ce simulateur applique le <strong>barème progressif de l'impôt sur le revenu</strong> voté dans la loi de finances pour 2026, applicable aux revenus perçus en 2025. Il vous donne trois informations clés :</p>
+    <ul>
+      <li><strong>Le taux marginal d'imposition (TMI)</strong> — le taux de la tranche la plus élevée atteinte par vos revenus. C'est ce taux qui s'applique à chaque euro supplémentaire gagné.</li>
+      <li><strong>Le taux moyen d'imposition</strong> — le rapport entre l'impôt total et votre revenu. C'est le taux réel de votre charge fiscale, toujours inférieur au TMI. Il correspond au taux personnalisé que vous pouvez choisir pour votre prélèvement à la source.</li>
+      <li><strong>Le montant d'impôt estimé</strong> — ce que vous devrez payer sur l'année, avant réductions et crédits d'impôt.</li>
+    </ul>
+  </section>
+
+  <section id="bareme">
+    <h2>Barème 2026 — revenus 2025</h2>
+    <p class="small">Barème officiel fixé par la loi de finances pour 2026, promulguée le 19 février 2026. Tranches indexées de +0,9 % par rapport à l'année précédente.</p>
+    <table class="bareme">
+      <caption>Pour une part de quotient familial</caption>
+      <thead><tr><th>Tranche de revenu</th><th>Taux</th></tr></thead>
+      <tbody>
+        <tr><td>Jusqu'à 11 600 €</td><td>0 %</td></tr>
+        <tr><td>De 11 601 € à 29 579 €</td><td>11 %</td></tr>
+        <tr><td>De 29 580 € à 84 577 €</td><td>30 %</td></tr>
+        <tr><td>De 84 578 € à 181 917 €</td><td>41 %</td></tr>
+        <tr><td>Plus de 181 917 €</td><td>45 %</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout">
+      <h3>Réfaction outre-mer</h3>
+      <p>Les contribuables domiciliés dans un DOM bénéficient d'une réduction sur l'impôt calculé :</p>
+      <ul>
+        <li><strong>30 %</strong>, plafonnée à <strong>2 450 €</strong> — Guadeloupe, Martinique, La Réunion.</li>
+        <li><strong>40 %</strong>, plafonnée à <strong>4 050 €</strong> — Guyane, Mayotte.</li>
+      </ul>
+      <p class="small">Art. 197, I-3 du CGI. Le simulateur applique cette réfaction automatiquement selon la zone sélectionnée.</p>
+    </div>
+  </section>
+
+  <section id="limites">
+    <h2>Limites de cet outil</h2>
+    <p>Cette version donne une estimation fondée sur le barème, le quotient familial et la réfaction DOM. Ne sont pas encore pris en compte :</p>
+    <ul>
+      <li>Le <strong>plafonnement du quotient familial</strong> (1 807 € par demi-part).</li>
+      <li>La <strong>décote</strong> pour les foyers modestes.</li>
+      <li>Les <strong>réductions et crédits d'impôt</strong> (dons, emploi à domicile, etc.).</li>
+      <li>La <strong>contribution exceptionnelle sur les hauts revenus</strong> (CEHR).</li>
+    </ul>
+    <p class="small">Pour un calcul officiel, utilisez le simulateur sur <a href="https://simulateur-ir-ifi.impots.gouv.fr/calcul_impot/2026/simplifie/index.htm" target="_blank" rel="noopener">impots.gouv.fr</a>.</p>
+  </section>
+
+</article>
+
+<footer>
+  <div class="footer-in">
+    <h4>Sources</h4>
+    <ul>
+      <li>Barème — <a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F1419" target="_blank" rel="noopener">Service Public, fiche F1419</a> (vérifiée le 15 avril 2026)</li>
+      <li>Réfaction DOM — <a href="https://bofip.impots.gouv.fr/bofip/4618-PGP.html" target="_blank" rel="noopener">BOFiP, BOI-IR-LIQ-20-30-10</a></li>
+      <li>Loi de finances pour 2026, promulguée le 19 février 2026</li>
+    </ul>
+    <div class="legal">
+      Outil d'information à but pédagogique. Les résultats sont des estimations et n'ont aucune valeur officielle. Cet outil ne remplace pas l'avis d'un professionnel. Dernière mise à jour : juin 2026.
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ════════════════════════════════════════════
+   BARÈME 2026 — revenus 2025 (LF 2026)
+   Structure datée pour ajout futur du barème 2027.
+   ════════════════════════════════════════════ */
+const TRANCHES = [
+  { min: 0,      max: 11600,    taux: 0    },
+  { min: 11600,  max: 29579,    taux: 0.11 },
+  { min: 29579,  max: 84577,    taux: 0.30 },
+  { min: 84577,  max: 181917,   taux: 0.41 },
+  { min: 181917, max: Infinity, taux: 0.45 }
+];
+
+const ZONES = {
+  metropole: { label: "Métropole",                         taux: 0,    plafond: 0    },
+  reunion:   { label: "Guadeloupe / Martinique / Réunion", taux: 0.30, plafond: 2450 },
+  guyane:    { label: "Guyane / Mayotte",                  taux: 0.40, plafond: 4050 }
+};
+
+/* ── Helpers ──────────────────────────────── */
+const fmtE = n => new Intl.NumberFormat('fr-FR',{maximumFractionDigits:0}).format(Math.round(n)) + " €";
+const fmtP = n => new Intl.NumberFormat('fr-FR',{minimumFractionDigits:1,maximumFractionDigits:2}).format(n*100) + " %";
+
+/* ── Calcul ──────────────────────────────── */
+function calculer(revenu, parts, zone){
+  const p = Math.max(parts, 0.5);
+  const q = revenu / p;
+  let impPart = 0, tmi = 0;
+
+  const detail = TRANCHES.map(t => {
+    const assiette = q > t.min ? Math.min(q, t.max === Infinity ? q : t.max) - t.min : 0;
+    const imp = assiette * t.taux;
+    if (assiette > 0){ impPart += imp; tmi = t.taux; }
+    return { t, assietteFoyer: assiette * p, impotFoyer: imp * p, actif: assiette > 0 };
+  });
+
+  const impBareme = impPart * p;
+  const z = ZONES[zone] || ZONES.metropole;
+  const refac = Math.min(impBareme * z.taux, z.taux > 0 ? z.plafond : 0);
+  const impFinal = Math.max(0, impBareme - refac);
+
+  return { q, tmi, impBareme, refac, impFinal, detail, zone: z,
+           tauxMoyen: revenu > 0 ? impFinal / revenu : 0 };
+}
+
+/* ── Rendu ────────────────────────────────── */
+function rendre(){
+  const rev   = parseFloat(document.getElementById('revenu').value) || 0;
+  const parts = parseFloat(document.getElementById('parts').value) || 1;
+  const zone  = document.getElementById('zone').value;
+  const r = calculer(rev, parts, zone);
+
+  const lignes = r.detail.map(d => {
+    const borne = d.t.max === Infinity
+      ? `Plus de ${fmtE(d.t.min)}`
+      : (d.t.min === 0 ? `Jusqu'à ${fmtE(d.t.max)}` : `${fmtE(d.t.min)} – ${fmtE(d.t.max)}`);
+    return `<tr class="${d.actif?'on':''}">
+      <td>${borne}</td><td>${(d.t.taux*100).toFixed(0)} %</td>
+      <td>${fmtE(d.assietteFoyer)}</td><td>${fmtE(d.impotFoyer)}</td></tr>`;
+  }).join('');
+
+  const refacHtml = r.refac > 0 ? `
+    <div class="ledger-row refac">
+      <span class="lk">Réfaction ${r.zone.label} (${(r.zone.taux*100).toFixed(0)} %, plafond ${fmtE(r.zone.plafond)})</span>
+      <span class="lv">− ${fmtE(r.refac)}</span>
+    </div>` : '';
+
+  document.getElementById('results').innerHTML = `
+    <div class="res-head">
+      <div class="res-box hero-tmi">
+        <div class="rl">Taux marginal (TMI)</div>
+        <div class="rv">${(r.tmi*100).toFixed(0)} %</div>
+        <div class="rs">Tranche la plus haute atteinte</div>
+      </div>
+      <div class="res-box hero-avg">
+        <div class="rl">Taux moyen</div>
+        <div class="rv">${fmtP(r.tauxMoyen)}</div>
+        <div class="rs">Taux personnalisé PAS</div>
+      </div>
+      <div class="res-box hero-tax">
+        <div class="rl">Impôt estimé</div>
+        <div class="rv">${fmtE(r.impFinal)}</div>
+        <div class="rs">Quotient : ${fmtE(r.q)} · ${parts} part${parts>1?'s':''}</div>
+      </div>
+    </div>
+
+    <div class="breakdown">
+      <h3>Détail par tranche</h3>
+      <table class="detail">
+        <thead><tr><th>Tranche</th><th>Taux</th><th>Base imposée</th><th>Impôt</th></tr></thead>
+        <tbody>${lignes}</tbody>
+        <tfoot><tr><td colspan="3">Impôt issu du barème</td><td>${fmtE(r.impBareme)}</td></tr></tfoot>
+      </table>
+
+      <div class="ledger">
+        <div class="ledger-row">
+          <span class="lk">Impôt après barème</span>
+          <span class="lv">${fmtE(r.impBareme)}</span>
+        </div>
+        ${refacHtml}
+        <div class="ledger-row total">
+          <span class="lk">Impôt à payer estimé</span>
+          <span class="lv">${fmtE(r.impFinal)}</span>
+        </div>
+      </div>
+
+      <p class="disclaim">
+        Estimation hors plafonnement du quotient familial, décote, réductions et crédits d'impôt.
+        Ce montant vous aide à vérifier ou ajuster votre taux de prélèvement à la source.
+      </p>
+    </div>`;
+}
+
+/* ── Menu ─────────────────────────────────── */
+const menuBtn = document.getElementById('menu-btn');
+const menuDrop = document.getElementById('menu-drop');
+menuBtn.addEventListener('click', () => {
+  const open = menuDrop.classList.toggle('open');
+  menuBtn.setAttribute('aria-expanded', open);
+});
+document.addEventListener('click', e => {
+  if (!menuBtn.contains(e.target) && !menuDrop.contains(e.target)){
+    menuDrop.classList.remove('open');
+    menuBtn.setAttribute('aria-expanded','false');
+  }
+});
+
+/* ── Écouteurs ────────────────────────────── */
+['revenu','parts','zone'].forEach(id =>
+  document.getElementById(id).addEventListener('input', rendre)
+);
+
+rendre();
+</script>
+</body>
+</html>
